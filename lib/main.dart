@@ -1,5 +1,6 @@
 import 'package:d_counter/home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,8 +12,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
+      supportedLocales: const [
+        Locale('ko', ''),
+      ],
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink),
         fontFamily: 'Pretendard',
       ),
       home: const DCounterHome(),

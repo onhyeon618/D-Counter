@@ -1,3 +1,4 @@
+import 'package:d_counter/screen/setting_page.dart';
 import 'package:flutter/material.dart';
 
 class InitialPage extends StatelessWidget {
@@ -8,7 +9,16 @@ class InitialPage extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        // TODO
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SettingPage(
+              onSave: () {
+                // TODO
+              },
+            ),
+          ),
+        );
       },
       child: Center(
         child: Column(
