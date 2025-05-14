@@ -2,7 +2,12 @@ import 'package:d_counter/screen/setting_page.dart';
 import 'package:flutter/material.dart';
 
 class InitialPage extends StatelessWidget {
-  const InitialPage({super.key});
+  final VoidCallback onSave;
+
+  const InitialPage({
+    super.key,
+    required this.onSave,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +18,7 @@ class InitialPage extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => SettingPage(
-              onSave: () {
-                // TODO
-              },
+              onSave: onSave,
             ),
           ),
         );

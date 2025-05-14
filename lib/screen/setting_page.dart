@@ -1,6 +1,8 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
+import 'package:d_counter/main.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingPage extends StatefulWidget {
   final String? initialName;
@@ -207,11 +209,19 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                   const SizedBox(height: 40),
 
-                  /// 저장
+                  /// 버튼
                   GestureDetector(
-                    onTap: () {
-                      // TODO
+                    onTap: () async {
+                      final SharedPreferencesWithCache prefs = await prefsWithCache;
+
+                      await prefs.setInt('dateType', dateType.index);
+                      await prefs.setString('dateName', _controller.text);
+                      await prefs.setString('dateDate', DateFormat('yyyy-MM-dd').format(date));
+
                       widget.onSave.call();
+
+                      if (!context.mounted) return;
+                      Navigator.pop(context);
                     },
                     child: Container(
                       width: double.infinity,
@@ -227,6 +237,29 @@ class _SettingPageState extends State<SettingPage> {
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      alignment: Alignment.center,
+                      child: const Text(
+                        '취소',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
                         ),
                       ),
                     ),
