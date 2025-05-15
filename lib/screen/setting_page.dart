@@ -9,6 +9,7 @@ class SettingPage extends StatefulWidget {
   final DateTime? initialDate;
   final DateType? initialDateType;
   final int? initialBackground;
+  final int? initialFont;
   final VoidCallback onSave;
 
   const SettingPage({
@@ -17,6 +18,7 @@ class SettingPage extends StatefulWidget {
     this.initialDate,
     this.initialDateType,
     this.initialBackground,
+    this.initialFont,
     required this.onSave,
   });
 
@@ -30,6 +32,7 @@ class _SettingPageState extends State<SettingPage> {
   late DateTime date;
   late DateType dateType;
   late int background;
+  late int font;
 
   @override
   void initState() {
@@ -40,6 +43,7 @@ class _SettingPageState extends State<SettingPage> {
     date = widget.initialDate ?? DateTime.now();
     dateType = widget.initialDateType ?? DateType.dDay;
     background = widget.initialBackground ?? 0;
+    font = widget.initialFont ?? 0;
   }
 
   @override
@@ -236,22 +240,19 @@ class _SettingPageState extends State<SettingPage> {
                             background = index;
                           });
                         },
-                        child: AspectRatio(
-                          aspectRatio: 1,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(
-                                color: background == index ? Colors.pink : Colors.transparent,
-                                width: 2,
-                              ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: background == index ? Colors.pink : Colors.transparent,
+                              width: 2,
                             ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(6),
-                              child: Image.asset(
-                                'assets/images/background${index + 1}.jpg',
-                                fit: BoxFit.cover,
-                              ),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(6),
+                            child: Image.asset(
+                              'assets/images/background${index + 1}.jpg',
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
@@ -260,7 +261,55 @@ class _SettingPageState extends State<SettingPage> {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                   ),
+                  const SizedBox(height: 26),
 
+                  /// 폰트
+                  Text(
+                    '글씨체',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  GridView.builder(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 8,
+                      mainAxisSpacing: 8,
+                      mainAxisExtent: 44,
+                    ),
+                    itemCount: 6,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            font = index;
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6),
+                            border: Border.all(
+                              color: font == index ? Colors.pink : Colors.pink.shade50,
+                              width: font == index ? 2 : 1,
+                            ),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            '우린 D+123',
+                            style: TextStyle(
+                              fontFamily: fontFamily[index],
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                  ),
                   const SizedBox(height: 40),
 
                   /// 버튼
@@ -271,6 +320,8 @@ class _SettingPageState extends State<SettingPage> {
                       await prefs.setInt('dateType', dateType.index);
                       await prefs.setString('dateName', _controller.text);
                       await prefs.setString('dateDate', DateFormat('yyyy-MM-dd').format(date));
+                      await prefs.setInt('backgroundImage', background);
+                      await prefs.setInt('fontFamily', font);
 
                       widget.onSave.call();
 

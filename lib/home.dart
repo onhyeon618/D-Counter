@@ -16,6 +16,7 @@ class _DCounterHomeState extends State<DCounterHome> {
   String? name;
   DateTime? dday;
   int background = 0;
+  int font = 0;
 
   @override
   void initState() {
@@ -30,6 +31,7 @@ class _DCounterHomeState extends State<DCounterHome> {
         name = prefs.getString('dateName');
         dday = DateTime.tryParse(prefs.getString('dateDate') ?? '');
         background = prefs.getInt('backgroundImage') ?? 0;
+        font = prefs.getInt('fontFamily') ?? 0;
       });
     });
   }

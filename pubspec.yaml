@@ -81,7 +81,7 @@ flutter:
       fonts:
         - asset: assets/fonts/Kimjungchul-Light.ttf
           weight: 300
-        - asset: assets/fonts/Kimjungchul-Medium.ttf
+        - asset: assets/fonts/Kimjungchul-Regular.ttf
           weight: 500
         - asset: assets/fonts/Kimjungchul-Bold.ttf
           weight: 700

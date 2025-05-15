@@ -9,9 +9,11 @@ void main() {
 
 final Future<SharedPreferencesWithCache> prefsWithCache = SharedPreferencesWithCache.create(
   cacheOptions: const SharedPreferencesWithCacheOptions(
-    allowList: <String>{'dateType', 'dateName', 'dateDate', 'backgroundImage'},
+    allowList: <String>{'dateType', 'dateName', 'dateDate', 'backgroundImage', 'fontFamily'},
   ),
 );
+
+final List<String> fontFamily = ['Doldam', 'Dongle', 'Esamanru', 'Jikji', 'Kimjungchul', 'Okticon'];
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
