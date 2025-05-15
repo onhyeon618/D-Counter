@@ -45,3 +45,51 @@ flutter:
           weight: 800
         - asset: assets/fonts/Pretendard-Black.ttf
           weight: 900
+    - family: Doldam
+      fonts:
+        - asset: assets/fonts/Doldam-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Doldam-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Doldam-Bold.ttf
+          weight: 700
+    - family: Dongle
+      fonts:
+        - asset: assets/fonts/Dongle-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Dongle-Regular.ttf
+          weight: 500
+        - asset: assets/fonts/Dongle-Bold.ttf
+          weight: 700
+    - family: Esamanru
+      fonts:
+        - asset: assets/fonts/Esamanru-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Esamanru-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Esamanru-Bold.ttf
+          weight: 700
+    - family: Jikji
+      fonts:
+        - asset: assets/fonts/Jikji-Light.otf
+          weight: 300
+        - asset: assets/fonts/Jikji-Medium.otf
+          weight: 500
+        - asset: assets/fonts/Jikji-Bold.otf
+          weight: 700
+    - family: Kimjungchul
+      fonts:
+        - asset: assets/fonts/Kimjungchul-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Kimjungchul-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Kimjungchul-Bold.ttf
+          weight: 700
+    - family: Okticon
+      fonts:
+        - asset: assets/fonts/Okticon-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Okticon-Regular.ttf
+          weight: 500
+        - asset: assets/fonts/Okticon-Bold.ttf
+          weight: 700
