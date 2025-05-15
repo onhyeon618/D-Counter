@@ -8,6 +8,7 @@ class SettingPage extends StatefulWidget {
   final String? initialName;
   final DateTime? initialDate;
   final DateType? initialDateType;
+  final int? initialBackground;
   final VoidCallback onSave;
 
   const SettingPage({
@@ -15,6 +16,7 @@ class SettingPage extends StatefulWidget {
     this.initialName,
     this.initialDate,
     this.initialDateType,
+    this.initialBackground,
     required this.onSave,
   });
 
@@ -27,6 +29,7 @@ class _SettingPageState extends State<SettingPage> {
 
   late DateTime date;
   late DateType dateType;
+  late int background;
 
   @override
   void initState() {
@@ -36,6 +39,7 @@ class _SettingPageState extends State<SettingPage> {
     }
     date = widget.initialDate ?? DateTime.now();
     dateType = widget.initialDateType ?? DateType.dDay;
+    background = widget.initialBackground ?? 0;
   }
 
   @override
@@ -162,7 +166,7 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                   const SizedBox(height: 26),
 
-                  // 날짜
+                  /// 날짜
                   Row(
                     children: [
                       Text(
@@ -207,6 +211,56 @@ class _SettingPageState extends State<SettingPage> {
                       },
                     ),
                   ),
+                  const SizedBox(height: 26),
+
+                  /// 배경 이미지
+                  Text(
+                    '배경 이미지',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  GridView.builder(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 5,
+                      crossAxisSpacing: 8,
+                      mainAxisSpacing: 8,
+                    ),
+                    itemCount: 10,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            background = index;
+                          });
+                        },
+                        child: AspectRatio(
+                          aspectRatio: 1,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: background == index ? Colors.pink : Colors.transparent,
+                                width: 2,
+                              ),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(6),
+                              child: Image.asset(
+                                'assets/images/background${index + 1}.jpg',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                  ),
+
                   const SizedBox(height: 40),
 
                   /// 버튼

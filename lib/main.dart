@@ -9,7 +9,7 @@ void main() {
 
 final Future<SharedPreferencesWithCache> prefsWithCache = SharedPreferencesWithCache.create(
   cacheOptions: const SharedPreferencesWithCacheOptions(
-    allowList: <String>{'dateType', 'dateName', 'dateDate'}, // Allowed keys
+    allowList: <String>{'dateType', 'dateName', 'dateDate', 'backgroundImage'},
   ),
 );
 
