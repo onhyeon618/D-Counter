@@ -29,7 +29,7 @@ class DatePage extends StatelessWidget {
             image: DecorationImage(
               fit: BoxFit.cover,
               image: AssetImage('assets/images/background${background + 1}.jpg'),
-              colorFilter: ColorFilter.mode(Colors.grey.shade600, BlendMode.darken),
+              colorFilter: ColorFilter.mode(Colors.black.withAlpha(140), BlendMode.darken),
             ),
           ),
         ),
