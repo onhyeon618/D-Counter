@@ -39,37 +39,40 @@ class _DCounterHomeState extends State<DCounterHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: dday == null
-            ? InitialPage(
-                onSave: _fetchPrefs,
-              )
-            : DatePage(),
-        bottomNavigationBar: BottomAppBar(
-          padding: EdgeInsets.zero,
+      body: dday == null
+          ? InitialPage(
+              onSave: _fetchPrefs,
+            )
+          : DatePage(
+              date: dday!,
+              type: type,
+              name: name,
+              background: background,
+              font: font,
+            ),
+      extendBody: true,
+      bottomNavigationBar: ClipRRect(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(16.0),
+        ),
+        child: BottomAppBar(
           height: 60,
-          child: Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(16.0),
-                topRight: Radius.circular(16.0),
+          color: Colors.white,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.menu),
+                onPressed: () {},
               ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.menu),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: const Icon(Icons.settings),
-                  onPressed: () async {},
-                ),
-                SizedBox(width: 8),
-              ],
-            ),
+              IconButton(
+                icon: const Icon(Icons.settings),
+                onPressed: () async {},
+              ),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
