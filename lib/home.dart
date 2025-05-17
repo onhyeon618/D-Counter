@@ -36,6 +36,22 @@ class _DCounterHomeState extends State<DCounterHome> {
     });
   }
 
+  void _openSettingPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SettingPage(
+          initialName: name,
+          initialDate: dday,
+          initialDateType: type,
+          initialBackground: background,
+          initialFont: font,
+          onSave: _fetchPrefs,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,11 +79,11 @@ class _DCounterHomeState extends State<DCounterHome> {
             children: [
               IconButton(
                 icon: const Icon(Icons.menu),
-                onPressed: () {},
+                onPressed: null,
               ),
               IconButton(
                 icon: const Icon(Icons.settings),
-                onPressed: () async {},
+                onPressed: dday != null ? _openSettingPage : null,
               ),
             ],
           ),
