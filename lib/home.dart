@@ -1,4 +1,5 @@
 import 'package:d_counter/main.dart';
+import 'package:d_counter/screen/date_calculator_modal.dart';
 import 'package:d_counter/screen/date_page.dart';
 import 'package:d_counter/screen/initial_page.dart';
 import 'package:d_counter/screen/setting_page.dart';
@@ -34,6 +35,13 @@ class _DCounterHomeState extends State<DCounterHome> {
         font = prefs.getInt('fontFamily') ?? 0;
       });
     });
+  }
+
+  void _openCalculator() {
+    DateCalculatorModal.show(
+      context: context,
+      date: dday!,
+    );
   }
 
   void _openSettingPage() {
@@ -78,8 +86,8 @@ class _DCounterHomeState extends State<DCounterHome> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               IconButton(
-                icon: const Icon(Icons.menu),
-                onPressed: null,
+                icon: const Icon(Icons.calculate_outlined),
+                onPressed: dday != null ? _openCalculator : null,
               ),
               IconButton(
                 icon: const Icon(Icons.settings),
