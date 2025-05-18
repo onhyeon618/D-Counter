@@ -1,5 +1,6 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
-import 'package:d_counter/screen/setting_page.dart';
+import 'package:d_counter/enums.dart';
+import 'package:d_counter/statics.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -44,7 +45,7 @@ class _DateCalculatorModalState extends State<DateCalculatorModal> {
   @override
   void initState() {
     super.initState();
-    calculatedDate = _calculateDate(widget.date, 1);
+    calculatedDate = calculateDate(date: widget.date, toCompare: 1, dateType: dateType);
   }
 
   @override
@@ -91,7 +92,11 @@ class _DateCalculatorModalState extends State<DateCalculatorModal> {
                       setState(() {
                         dateType = DateType.dDay;
                         if (int.tryParse(_controller.text) != null) {
-                          calculatedDate = _calculateDate(widget.date, int.parse(_controller.text));
+                          calculatedDate = calculateDate(
+                            date: widget.date,
+                            toCompare: int.parse(_controller.text),
+                            dateType: dateType,
+                          );
                         }
                       });
                     },
@@ -121,7 +126,11 @@ class _DateCalculatorModalState extends State<DateCalculatorModal> {
                       setState(() {
                         dateType = DateType.anniversary;
                         if (int.tryParse(_controller.text) != null) {
-                          calculatedDate = _calculateDate(widget.date, int.parse(_controller.text));
+                          calculatedDate = calculateDate(
+                            date: widget.date,
+                            toCompare: int.parse(_controller.text),
+                            dateType: dateType,
+                          );
                         }
                       });
                     },
@@ -263,7 +272,11 @@ class _DateCalculatorModalState extends State<DateCalculatorModal> {
                         text: '${DateFormat('yyyy년 M월 d일').format(comparedDate)}은 ',
                       ),
                       TextSpan(
-                        text: _calculateDateDifference(widget.date, comparedDate),
+                        text: calculateDifference(
+                          date: widget.date,
+                          toCompare: comparedDate,
+                          dateType: dateType,
+                        ),
                         style: const TextStyle(color: Colors.pink),
                       ),
                       TextSpan(
@@ -303,7 +316,11 @@ class _DateCalculatorModalState extends State<DateCalculatorModal> {
                           final diff = int.tryParse(value);
                           if (diff != null) {
                             setState(() {
-                              calculatedDate = _calculateDate(widget.date, diff);
+                              calculatedDate = calculateDate(
+                                date: widget.date,
+                                toCompare: diff,
+                                dateType: dateType,
+                              );
                             });
                           }
                         },
@@ -338,41 +355,4 @@ class _DateCalculatorModalState extends State<DateCalculatorModal> {
       ),
     );
   }
-
-  // TODO: 공통 함수로 추출
-  String _calculateDateDifference(DateTime date, DateTime toCompare) {
-    if (date.isAfter(toCompare)) {
-      final difference = date.difference(toCompare).inDays;
-      return 'D-$difference';
-    } else if (date.isBefore(toCompare)) {
-      final difference = toCompare.difference(date).inDays + (dateType == DateType.anniversary ? 1 : 0);
-      return 'D+$difference';
-    } else {
-      if (dateType == DateType.dDay) {
-        return 'D-Day';
-      } else {
-        return 'D+1';
-      }
-    }
-  }
-
-  String _calculateDate(DateTime date, int toCompare) {
-    if (dateType == DateType.anniversary && toCompare <= 0) {
-      return '(기념일 계산은 양수만 가능합니다)';
-    }
-
-    final arranged = toCompare - (dateType == DateType.anniversary ? 1 : 0);
-    DateTime result = date.add(Duration(days: arranged));
-
-    return DateFormat('yyyy년 M월 d일').format(result);
-  }
-}
-
-enum CalculationType {
-  byDate('날짜로 계산'),
-  byCount('일수로 계산');
-
-  final String name;
-
-  const CalculationType(this.name);
 }

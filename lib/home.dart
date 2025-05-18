@@ -1,8 +1,6 @@
-import 'package:d_counter/main.dart';
-import 'package:d_counter/screen/date_calculator_modal.dart';
-import 'package:d_counter/screen/date_page.dart';
-import 'package:d_counter/screen/initial_page.dart';
-import 'package:d_counter/screen/setting_page.dart';
+import 'package:d_counter/enums.dart';
+import 'package:d_counter/screen/screen.dart';
+import 'package:d_counter/statics.dart';
 import 'package:flutter/material.dart';
 
 class DCounterHome extends StatefulWidget {

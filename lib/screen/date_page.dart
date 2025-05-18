@@ -1,5 +1,5 @@
-import 'package:d_counter/main.dart';
-import 'package:d_counter/screen/setting_page.dart';
+import 'package:d_counter/enums.dart';
+import 'package:d_counter/statics.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

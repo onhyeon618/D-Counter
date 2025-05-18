@@ -1,5 +1,6 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
-import 'package:d_counter/main.dart';
+import 'package:d_counter/enums.dart';
+import 'package:d_counter/statics.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -203,7 +204,6 @@ class _SettingPageState extends State<SettingPage> {
                     color: Colors.pink.withAlpha(10),
                     child: CalendarDatePicker2(
                       config: CalendarDatePicker2Config(
-                        // calendarViewScrollPhysics
                         selectedDayHighlightColor: Colors.pink,
                         daySplashColor: Colors.transparent,
                       ),
@@ -377,14 +377,4 @@ class _SettingPageState extends State<SettingPage> {
       ),
     );
   }
-}
-
-enum DateType {
-  dDay('디데이', '지정한 날짜를 D+0으로 계산합니다.'),
-  anniversary('기념일', '지정한 날짜를 D+1으로 계산합니다.');
-
-  final String name;
-  final String description;
-
-  const DateType(this.name, this.description);
 }
