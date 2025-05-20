@@ -21,8 +21,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="d_counter">
         <receiver
-            android:name=".CountingWidget"
-            android:exported="false">
+            android:name=".CountingWidgetReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
