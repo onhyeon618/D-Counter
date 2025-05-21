@@ -1,6 +1,7 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:d_counter/enums.dart';
 import 'package:d_counter/statics.dart';
+import 'package:d_counter/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -323,6 +324,7 @@ class _SettingPageState extends State<SettingPage> {
                       await prefs.setInt('backgroundImage', background);
                       await prefs.setInt('fontFamily', font);
 
+                      updateWidget();
                       widget.onSave.call();
 
                       if (!context.mounted) return;
