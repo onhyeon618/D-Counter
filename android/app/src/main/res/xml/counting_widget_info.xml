@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:configure="com.toyprojects.dcounter.d_counter.CountingWidgetConfigurationActivity"
+
     android:initialLayout="@layout/counting_widget"
     android:previewLayout="@layout/counting_widget"
     android:minWidth="110dp"
