@@ -1,3 +1,4 @@
+import 'package:d_counter/screen/license_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_in_store_app_version_checker/flutter_in_store_app_version_checker.dart';
 import 'package:store_redirect/store_redirect.dart';
@@ -100,24 +101,35 @@ class _AppInfoScreenState extends State<AppInfoScreen> {
               ),
               const SizedBox(height: 40),
               Divider(indent: 20, endIndent: 20, height: 30),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      '오픈소스 라이선스',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w300,
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LicenseList(),
+                    ),
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        '오픈소스 라이선스',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w300,
+                        ),
                       ),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 16,
-                      color: Colors.grey[600],
-                    ),
-                  ],
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        size: 16,
+                        color: Colors.grey[600],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
