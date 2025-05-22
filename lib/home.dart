@@ -39,6 +39,7 @@ class _DCounterHomeState extends State<DCounterHome> {
     DateCalculatorModal.show(
       context: context,
       date: dday!,
+      type: type,
     );
   }
 

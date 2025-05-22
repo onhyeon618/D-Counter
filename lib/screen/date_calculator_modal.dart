@@ -6,15 +6,18 @@ import 'package:intl/intl.dart';
 
 class DateCalculatorModal extends StatefulWidget {
   final DateTime date;
+  final DateType type;
 
   const DateCalculatorModal({
     super.key,
     required this.date,
+    required this.type,
   });
 
   static Future<T?> show<T>({
     required BuildContext context,
     required DateTime date,
+    required DateType type,
   }) {
     return showModalBottomSheet<T>(
       context: context,
@@ -25,7 +28,10 @@ class DateCalculatorModal extends StatefulWidget {
       backgroundColor: Colors.white,
       builder: (context) => Padding(
         padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        child: DateCalculatorModal(date: date),
+        child: DateCalculatorModal(
+          date: date,
+          type: type,
+        ),
       ),
     );
   }
@@ -37,7 +43,7 @@ class DateCalculatorModal extends StatefulWidget {
 class _DateCalculatorModalState extends State<DateCalculatorModal> {
   final TextEditingController _controller = TextEditingController(text: '+1');
 
-  DateType dateType = DateType.dDay;
+  late DateType dateType;
   CalculationType calculationType = CalculationType.byDate;
   DateTime comparedDate = DateTime.now();
   String calculatedDate = '';
@@ -45,6 +51,8 @@ class _DateCalculatorModalState extends State<DateCalculatorModal> {
   @override
   void initState() {
     super.initState();
+
+    dateType = widget.type;
     calculatedDate = calculateDate(date: widget.date, toCompare: 1, dateType: dateType);
   }
 
