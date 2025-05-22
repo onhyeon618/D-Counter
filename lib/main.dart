@@ -1,15 +1,13 @@
 import 'package:d_counter/home.dart';
+import 'package:d_counter/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:home_widget/home_widget.dart';
 import 'package:workmanager/workmanager.dart';
 
 @pragma('vm:entry-point')
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) {
-    HomeWidget.updateWidget(
-      androidName: 'CountingWidgetReceiver',
-    );
+    updateWidget();
     return Future.value(true);
   });
 }
