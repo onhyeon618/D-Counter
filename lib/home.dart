@@ -90,6 +90,14 @@ class _DCounterHomeState extends State<DCounterHome> {
               IconButton(
                 icon: const Icon(Icons.settings),
                 onPressed: dday != null ? _openSettingPage : null,
+                onLongPress: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AppInfoScreen(),
+                    ),
+                  );
+                },
               ),
             ],
           ),
