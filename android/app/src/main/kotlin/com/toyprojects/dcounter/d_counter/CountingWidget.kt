@@ -24,15 +24,6 @@ import androidx.glance.state.GlanceStateDefinition
 
 class CountingWidget : GlanceAppWidget() {
 
-    private val fontFamilyList = listOf(
-        R.font.doldam,
-        R.font.dongle,
-        R.font.esamanru,
-        R.font.jikji,
-        R.font.kimjungchul,
-        R.font.okticon,
-    )
-
     override val stateDefinition: GlanceStateDefinition<*>?
         get() = HomeWidgetGlanceStateDefinition()
 
@@ -45,35 +36,51 @@ class CountingWidget : GlanceAppWidget() {
         }
 
         provideContent {
-            GlanceContent(context, currentState(), fontSize)
+            CountingWidgetContent(currentState(), fontSize)
         }
     }
+}
 
-    @Composable
-    private fun GlanceContent(context: Context, currentState: HomeWidgetGlanceState, fontSize: Dp) {
-        val prefs = currentState.preferences
-        val daysCount = prefs.getString("daysCount", "날짜를 설정해주세요")!!
-        val fontFamily = prefs.getInt("fontFamily", 0)
+@Composable
+fun CountingWidgetContent(currentState: HomeWidgetGlanceState, fontSize: Dp) {
+    val fontFamilyList = listOf(
+        R.font.doldam,
+        R.font.dongle,
+        R.font.esamanru,
+        R.font.jikji,
+        R.font.kimjungchul,
+        R.font.okticon,
+    )
 
+    val prefs = currentState.preferences
+    val daysCount = prefs.getString(Keys.daysCount.name, "날짜를 설정해주세요") ?: "오류가 발생했습니다"
+    val fontFamily = prefs.getInt(Keys.fontFamily.name, 0) ?: 0
+
+    val colorMode = prefs.getInt(Keys.colorMode.name, 0) ?: 0
+    val backgroundAlpha = prefs.getFloat(Keys.backgroundAlpha.name, 1f) ?: 1f
+    val textAlpha = prefs.getFloat(Keys.textAlpha.name, 1f) ?: 1f
+
+    Box(
+        modifier = GlanceModifier.fillMaxSize().padding(10.dp),
+        contentAlignment = androidx.glance.layout.Alignment.Center
+    ) {
         Box(
-            modifier = GlanceModifier.fillMaxSize().padding(10.dp),
+            modifier = GlanceModifier
+                .fillMaxSize()
+                .background(
+                    (if (colorMode == 0) Color.White else Color.Black).copy(alpha = backgroundAlpha),
+                )
+                .cornerRadius(16.dp)
+                .clickable(actionStartActivity<MainActivity>())
+                .padding(10.dp),
             contentAlignment = androidx.glance.layout.Alignment.Center
         ) {
-            Box(
-                modifier = GlanceModifier
-                    .fillMaxSize()
-                    .background(Color.White)
-                    .cornerRadius(16.dp)
-                    .clickable(actionStartActivity<MainActivity>())
-                    .padding(10.dp),
-                contentAlignment = androidx.glance.layout.Alignment.Center
-            ) {
-                GlanceText(
-                    text = daysCount,
-                    font = fontFamilyList[fontFamily],
-                    fontSize = fontSize,
-                )
-            }
+            GlanceText(
+                text = daysCount,
+                font = fontFamilyList[fontFamily],
+                fontSize = fontSize,
+                color = (if (colorMode == 0) Color.Black else Color.White).copy(alpha = textAlpha)
+            )
         }
     }
 }
