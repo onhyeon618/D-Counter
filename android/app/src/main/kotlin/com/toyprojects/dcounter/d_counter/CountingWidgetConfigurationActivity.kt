@@ -62,15 +62,16 @@ class CountingWidgetConfigurationActivity : ComponentActivity() {
         setResult(Activity.RESULT_CANCELED, resultValue)
 
         val widgetData = HomeWidgetPlugin.getData(this.applicationContext)
-        val initialColorMode = widgetData.getInt(Keys.colorMode.name, 0)
-        val initialBackgroundAlpha = widgetData.getFloat(Keys.backgroundAlpha.name, 1f)
-        val initialTextAlpha = widgetData.getFloat(Keys.textAlpha.name, 1f)
+        val initialColorMode = widgetData.getInt("${Keys.colorMode.name}_$appWidgetId", 0)
+        val initialBackgroundAlpha = widgetData.getFloat("${Keys.backgroundAlpha.name}}_$appWidgetId", 1f)
+        val initialTextAlpha = widgetData.getFloat("${Keys.textAlpha.name}}_$appWidgetId", 1f)
 
         setContent {
             val scope = rememberCoroutineScope()
 
             ConfigurationScreen(
                 context = this.applicationContext,
+                appWidgetId = appWidgetId,
                 initialColorMode = initialColorMode,
                 initialBackgroundAlpha = initialBackgroundAlpha,
                 initialTextAlpha = initialTextAlpha,
@@ -91,6 +92,7 @@ class CountingWidgetConfigurationActivity : ComponentActivity() {
 @Composable
 private fun ConfigurationScreen(
     context: Context,
+    appWidgetId: Int,
     initialColorMode: Int,
     initialBackgroundAlpha: Float,
     initialTextAlpha: Float,
@@ -263,9 +265,9 @@ private fun ConfigurationScreen(
                     .clickable {
                         val prefs = HomeWidgetPlugin.getData(context).edit()
 
-                        prefs.putInt(Keys.colorMode.name, selectedColorMode)
-                        prefs.putFloat(Keys.backgroundAlpha.name, backgroundAlpha)
-                        prefs.putFloat(Keys.textAlpha.name, textAlpha)
+                        prefs.putInt("${Keys.colorMode.name}_$appWidgetId", selectedColorMode)
+                        prefs.putFloat("${Keys.backgroundAlpha.name}}_$appWidgetId", backgroundAlpha)
+                        prefs.putFloat("${Keys.textAlpha.name}}_$appWidgetId", textAlpha)
 
                         prefs.apply()
                         onSave(context)

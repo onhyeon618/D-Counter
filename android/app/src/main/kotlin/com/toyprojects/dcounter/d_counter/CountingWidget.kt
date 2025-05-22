@@ -35,14 +35,16 @@ class CountingWidget : GlanceAppWidget() {
             fontSize = (sizes[0].height.value - 40).dp
         }
 
+        val appWidgetId = GlanceAppWidgetManager(context).getAppWidgetId(id)
+
         provideContent {
-            CountingWidgetContent(currentState(), fontSize)
+            CountingWidgetContent(currentState(), appWidgetId, fontSize)
         }
     }
 }
 
 @Composable
-fun CountingWidgetContent(currentState: HomeWidgetGlanceState, fontSize: Dp) {
+fun CountingWidgetContent(currentState: HomeWidgetGlanceState, appWidgetId: Int, fontSize: Dp) {
     val fontFamilyList = listOf(
         R.font.doldam,
         R.font.dongle,
@@ -56,9 +58,9 @@ fun CountingWidgetContent(currentState: HomeWidgetGlanceState, fontSize: Dp) {
     val daysCount = prefs.getString(Keys.daysCount.name, "날짜를 설정해주세요") ?: "오류가 발생했습니다"
     val fontFamily = prefs.getInt(Keys.fontFamily.name, 0) ?: 0
 
-    val colorMode = prefs.getInt(Keys.colorMode.name, 0) ?: 0
-    val backgroundAlpha = prefs.getFloat(Keys.backgroundAlpha.name, 1f) ?: 1f
-    val textAlpha = prefs.getFloat(Keys.textAlpha.name, 1f) ?: 1f
+    val colorMode = prefs.getInt("${Keys.colorMode.name}_$appWidgetId", 0) ?: 0
+    val backgroundAlpha = prefs.getFloat("${Keys.backgroundAlpha.name}}_$appWidgetId", 1f) ?: 1f
+    val textAlpha = prefs.getFloat("${Keys.textAlpha.name}}_$appWidgetId", 1f) ?: 1f
 
     Box(
         modifier = GlanceModifier.fillMaxSize().padding(10.dp),
