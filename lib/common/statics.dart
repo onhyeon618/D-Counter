@@ -1,4 +1,4 @@
-import 'package:d_counter/enums.dart';
+import 'package:d_counter/common/enums.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

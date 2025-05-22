@@ -1,6 +1,6 @@
-import 'package:d_counter/enums.dart';
+import 'package:d_counter/common/enums.dart';
+import 'package:d_counter/common/statics.dart';
 import 'package:d_counter/screen/screen.dart';
-import 'package:d_counter/statics.dart';
 import 'package:flutter/material.dart';
 
 class DCounterHome extends StatefulWidget {

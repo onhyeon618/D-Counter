@@ -1,6 +1,6 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
-import 'package:d_counter/enums.dart';
-import 'package:d_counter/statics.dart';
+import 'package:d_counter/common/enums.dart';
+import 'package:d_counter/common/statics.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
