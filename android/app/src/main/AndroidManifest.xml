@@ -19,7 +19,7 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:label="d_counter">
+        android:label="@string/app_name">
 
         <receiver
             android:name=".CountingWidgetReceiver"
