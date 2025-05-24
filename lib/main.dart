@@ -6,8 +6,8 @@ import 'package:workmanager/workmanager.dart';
 
 @pragma('vm:entry-point')
 void callbackDispatcher() {
-  Workmanager().executeTask((task, inputData) {
-    updateWidget();
+  Workmanager().executeTask((task, inputData) async {
+    await updateWidget();
     return Future.value(true);
   });
 }
