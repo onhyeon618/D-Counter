@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:d_counter/common/enums.dart';
 import 'package:d_counter/common/statics.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,7 @@ class DatePage extends StatelessWidget {
   final DateType type;
   final String? name;
   final int background;
+  final String customBackground;
   final int font;
 
   const DatePage({
@@ -16,11 +19,18 @@ class DatePage extends StatelessWidget {
     required this.type,
     this.name,
     required this.background,
+    this.customBackground = '',
     required this.font,
   });
 
   @override
   Widget build(BuildContext context) {
+    final ImageProvider backgroundImage = background == 9
+        ? customBackground.isNotEmpty
+            ? FileImage(File(customBackground))
+            : AssetImage('assets/images/background1.jpg')
+        : AssetImage('assets/images/background${background + 1}.jpg');
+
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -28,7 +38,7 @@ class DatePage extends StatelessWidget {
           decoration: BoxDecoration(
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: AssetImage('assets/images/background${background + 1}.jpg'),
+              image: backgroundImage,
               colorFilter: ColorFilter.mode(Colors.black.withAlpha(140), BlendMode.darken),
             ),
           ),

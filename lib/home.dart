@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:d_counter/common/enums.dart';
 import 'package:d_counter/common/statics.dart';
 import 'package:d_counter/screen/screen.dart';
@@ -14,7 +16,8 @@ class _DCounterHomeState extends State<DCounterHome> {
   DateType type = DateType.dDay;
   String? name;
   DateTime? dday;
-  int background = 0;
+  int backgroundIndex = 0;
+  String customBackground = '';
   int font = 0;
 
   @override
@@ -26,8 +29,11 @@ class _DCounterHomeState extends State<DCounterHome> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    for (var idx = 1; idx < 11; idx++) {
+    for (var idx = 1; idx < 10; idx++) {
       precacheImage(AssetImage('assets/images/background$idx.jpg'), context);
+    }
+    if (customBackground.isNotEmpty) {
+      precacheImage(FileImage(File(customBackground)), context);
     }
   }
 
@@ -37,7 +43,8 @@ class _DCounterHomeState extends State<DCounterHome> {
         type = DateType.values[prefs.getInt('dateType') ?? 0];
         name = prefs.getString('dateName');
         dday = DateTime.tryParse(prefs.getString('dateDate') ?? '');
-        background = prefs.getInt('backgroundImage') ?? 0;
+        backgroundIndex = prefs.getInt('backgroundIndex') ?? 0;
+        customBackground = prefs.getString('customBackground') ?? '';
         font = prefs.getInt('fontFamily') ?? 0;
       });
     });
@@ -59,7 +66,8 @@ class _DCounterHomeState extends State<DCounterHome> {
           initialName: name,
           initialDate: dday,
           initialDateType: type,
-          initialBackground: background,
+          initialBackground: backgroundIndex,
+          initialCustomImage: customBackground,
           initialFont: font,
           onSave: _fetchPrefs,
         ),
@@ -78,7 +86,8 @@ class _DCounterHomeState extends State<DCounterHome> {
               date: dday!,
               type: type,
               name: name,
-              background: background,
+              background: backgroundIndex,
+              customBackground: customBackground,
               font: font,
             ),
       extendBody: true,

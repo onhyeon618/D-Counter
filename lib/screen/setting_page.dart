@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:d_counter/common/enums.dart';
 import 'package:d_counter/common/statics.dart';
 import 'package:d_counter/widget.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingPage extends StatefulWidget {
@@ -11,6 +15,7 @@ class SettingPage extends StatefulWidget {
   final DateTime? initialDate;
   final DateType? initialDateType;
   final int? initialBackground;
+  final String initialCustomImage;
   final int? initialFont;
   final VoidCallback onSave;
 
@@ -20,6 +25,7 @@ class SettingPage extends StatefulWidget {
     this.initialDate,
     this.initialDateType,
     this.initialBackground,
+    this.initialCustomImage = '',
     this.initialFont,
     required this.onSave,
   });
@@ -35,6 +41,7 @@ class _SettingPageState extends State<SettingPage> {
   late DateType dateType;
   late int background;
   late int font;
+  late String customImagePath;
 
   @override
   void initState() {
@@ -45,7 +52,18 @@ class _SettingPageState extends State<SettingPage> {
     date = widget.initialDate ?? DateTime.now();
     dateType = widget.initialDateType ?? DateType.dDay;
     background = widget.initialBackground ?? 0;
+    customImagePath = widget.initialCustomImage;
     font = widget.initialFont ?? 0;
+  }
+
+  Future<String?> _pickCustomImage() async {
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (image == null) return null;
+
+    final appDir = await getApplicationSupportDirectory();
+    final savedImage = await File(image.path).copy('${appDir.path}/${image.name}');
+
+    return savedImage.path;
   }
 
   @override
@@ -236,10 +254,21 @@ class _SettingPageState extends State<SettingPage> {
                     itemCount: 10,
                     itemBuilder: (context, index) {
                       return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            background = index;
-                          });
+                        onTap: () async {
+                          if (index == 9) {
+                            final result = await _pickCustomImage();
+                            if (result != null) {
+                              setState(() {
+                                customImagePath = result;
+                                background = index;
+                              });
+                            }
+                          } else {
+                            setState(() {
+                              customImagePath = '';
+                              background = index;
+                            });
+                          }
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -249,13 +278,7 @@ class _SettingPageState extends State<SettingPage> {
                               width: 2,
                             ),
                           ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(6),
-                            child: Image.asset(
-                              'assets/images/background${index + 1}.jpg',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
+                          child: _imageTile(index: index),
                         ),
                       );
                     },
@@ -321,7 +344,8 @@ class _SettingPageState extends State<SettingPage> {
                       await prefs.setInt('dateType', dateType.index);
                       await prefs.setString('dateName', _controller.text);
                       await prefs.setString('dateDate', DateFormat('yyyy-MM-dd').format(date));
-                      await prefs.setInt('backgroundImage', background);
+                      await prefs.setInt('backgroundIndex', background);
+                      await prefs.setString('customBackground', customImagePath ?? '');
                       await prefs.setInt('fontFamily', font);
 
                       updateWidget();
@@ -376,6 +400,44 @@ class _SettingPageState extends State<SettingPage> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _imageTile({required int index}) {
+    if (index == 9) {
+      return DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(color: Colors.grey),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(6),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              if (customImagePath.isNotEmpty)
+                Positioned.fill(
+                  child: Image.file(
+                    File(customImagePath),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              const Icon(
+                Icons.image_outlined,
+                color: Colors.grey,
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(6),
+      child: Image.asset(
+        'assets/images/background${index + 1}.jpg',
+        fit: BoxFit.cover,
       ),
     );
   }

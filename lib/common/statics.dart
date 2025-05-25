@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 final Future<SharedPreferencesWithCache> prefsWithCache = SharedPreferencesWithCache.create(
   cacheOptions: const SharedPreferencesWithCacheOptions(
-    allowList: <String>{'dateType', 'dateName', 'dateDate', 'backgroundImage', 'fontFamily'},
+    allowList: <String>{'dateType', 'dateName', 'dateDate', 'backgroundIndex', 'customBackground', 'fontFamily'},
   ),
 );
 
