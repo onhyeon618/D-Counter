@@ -23,6 +23,14 @@ class _DCounterHomeState extends State<DCounterHome> {
     _fetchPrefs();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    for (var idx = 1; idx < 11; idx++) {
+      precacheImage(AssetImage('assets/images/background$idx.jpg'), context);
+    }
+  }
+
   void _fetchPrefs() {
     prefsWithCache.then((prefs) {
       setState(() {
