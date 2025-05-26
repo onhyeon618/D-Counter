@@ -40,16 +40,14 @@ class _AppInfoScreenState extends State<AppInfoScreen> {
           child: Column(
             children: [
               const SizedBox(height: 100),
-              // TODO: 앱 아이콘 추가
-              SizedBox(
+              Image.asset(
+                'assets/app_icon.png',
                 width: 120,
                 height: 120,
-                child: Placeholder(),
               ),
               const SizedBox(height: 28),
-              // TODO: 앱 이름 추가
               const Text(
-                '앱 이름',
+                '데이원 DayONE',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
