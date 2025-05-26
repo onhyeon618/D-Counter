@@ -345,7 +345,7 @@ class _SettingPageState extends State<SettingPage> {
                       await prefs.setString('dateName', _controller.text);
                       await prefs.setString('dateDate', DateFormat('yyyy-MM-dd').format(date));
                       await prefs.setInt('backgroundIndex', background);
-                      await prefs.setString('customBackground', customImagePath ?? '');
+                      await prefs.setString('customBackground', customImagePath);
                       await prefs.setInt('fontFamily', font);
 
                       updateWidget();
