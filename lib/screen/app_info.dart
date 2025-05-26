@@ -1,6 +1,7 @@
 import 'package:d_counter/screen/license_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_in_store_app_version_checker/flutter_in_store_app_version_checker.dart';
+import 'package:home_widget/home_widget.dart';
 import 'package:store_redirect/store_redirect.dart';
 
 class AppInfoScreen extends StatefulWidget {
@@ -15,10 +16,18 @@ class _AppInfoScreenState extends State<AppInfoScreen> {
   String newVersion = '-';
   bool isUpdateAvailable = false;
 
+  String widgetTimeStamp = '...';
+
   @override
   void initState() {
     super.initState();
     checkVersion();
+
+    HomeWidget.getWidgetData<String>('timeStamp', defaultValue: '').then((value) {
+      widgetTimeStamp = value ?? '';
+    }).catchError((error) {
+      widgetTimeStamp = 'error occurred: $error';
+    });
   }
 
   Future<void> checkVersion() async {
@@ -125,6 +134,35 @@ class _AppInfoScreenState extends State<AppInfoScreen> {
                         Icons.arrow_forward_ios,
                         size: 16,
                         color: Colors.grey[600],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              // TODO: 출시 전 제거
+              Divider(indent: 20, endIndent: 20, height: 30),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '위젯 timeStamp:',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        widgetTimeStamp,
+                        style: TextStyle(
+                          fontSize: 16,
+                          height: 20 / 16,
+                          fontWeight: FontWeight.w300,
+                        ),
                       ),
                     ],
                   ),

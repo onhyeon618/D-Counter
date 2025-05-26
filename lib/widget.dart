@@ -25,6 +25,9 @@ Future<void> updateData() async {
 
   HomeWidget.saveWidgetData<String>('daysCount', daysCount);
   HomeWidget.saveWidgetData<int>('fontFamily', fontFamily);
+
+  final timeStamp = await HomeWidget.getWidgetData<String>('timeStamp', defaultValue: '');
+  HomeWidget.saveWidgetData<String>('timeStamp', '$timeStamp\n$daysCount : ${DateTime.now()}');
 }
 
 Future<void> updateWidget() async {
