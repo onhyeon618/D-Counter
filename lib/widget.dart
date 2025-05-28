@@ -26,6 +26,7 @@ Future<void> updateData() async {
   HomeWidget.saveWidgetData<int>('fontFamily', fontFamily);
 }
 
+@pragma('vm:entry-point')
 Future<void> updateWidget() async {
   await updateData();
 

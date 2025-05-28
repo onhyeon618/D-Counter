@@ -11,6 +11,7 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  android_alarm_manager_plus: 4.0.7
   calendar_date_picker2: 2.0.0
   flutter_in_store_app_version_checker: 1.10.0
   home_widget: 0.7.0+1
@@ -20,11 +21,6 @@ dependencies:
   shared_preferences: 2.5.3
   store_redirect: 2.0.4
   url_launcher: 6.3.1
-  workmanager:
-    git:
-      url: https://github.com/fluttercommunity/flutter_workmanager.git
-      path: workmanager
-      ref: main
 
 dev_dependencies:
   flutter_test:

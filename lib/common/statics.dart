@@ -10,6 +10,8 @@ final Future<SharedPreferencesWithCache> prefsWithCache = SharedPreferencesWithC
 
 final List<String> fontFamily = ['Doldam', 'Dongle', 'Esamanru', 'Jikji', 'Kimjungchul', 'Okticon'];
 
+final int widgetUpdateId = 250529;
+
 String calculateDifference({
   required DateTime date,
   required DateTime toCompare,

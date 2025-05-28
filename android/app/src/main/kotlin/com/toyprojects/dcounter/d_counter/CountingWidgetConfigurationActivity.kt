@@ -1,12 +1,18 @@
 package com.toyprojects.dcounter.d_counter
 
 import android.app.Activity
+import android.app.AlarmManager
+import android.app.AlertDialog
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -47,12 +53,58 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.appwidget.updateAll
 import es.antonborri.home_widget.HomeWidgetPlugin
+import io.flutter.embedding.engine.FlutterEngine
+import io.flutter.embedding.engine.FlutterEngineCache
+import io.flutter.embedding.engine.dart.DartExecutor
+import io.flutter.plugin.common.MethodChannel
 import kotlinx.coroutines.launch
 
 class CountingWidgetConfigurationActivity : ComponentActivity() {
+    private lateinit var flutterEngine: FlutterEngine
+    private lateinit var channel: MethodChannel
+
+    private lateinit var scheduleExactAlarmLauncher: ActivityResultLauncher<Intent>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        flutterEngine = FlutterEngineCache.getInstance().get(FLUTTER_ENGINE_ID)
+            ?: FlutterEngine(this).apply {
+                FlutterEngineCache.getInstance().put(FLUTTER_ENGINE_ID, this)
+                dartExecutor.executeDartEntrypoint(
+                    DartExecutor.DartEntrypoint.createDefault()
+                )
+            }
+
+        channel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "dayone/widget_channel")
+
+        // 권한 확인
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        scheduleExactAlarmLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !alarmManager.canScheduleExactAlarms()) {
+                finish()
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !alarmManager.canScheduleExactAlarms()) {
+            AlertDialog.Builder(this, R.style.CustomAlertDialog)
+                .setTitle("권한 안내")
+                .setMessage("위젯을 사용하려면 알람 및 리마인더 권한이 필요합니다. 확인 버튼을 누르면 권한 요청 화면으로 이동합니다.")
+                .setPositiveButton("확인") { _, _ ->
+                    val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+                    scheduleExactAlarmLauncher.launch(intent)
+                }
+                .setNegativeButton("취소") { _, _ ->
+                    finish()
+                }
+                .setCancelable(false)
+                .show()
+        }
+
+        // 위젯 및 설정화면 세팅
         val appWidgetId = intent?.extras?.getInt(
             AppWidgetManager.EXTRA_APPWIDGET_ID,
             AppWidgetManager.INVALID_APPWIDGET_ID
@@ -61,6 +113,10 @@ class CountingWidgetConfigurationActivity : ComponentActivity() {
         val resultValue = Intent().putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
         setResult(Activity.RESULT_CANCELED, resultValue)
 
+        showConfigurationUI(appWidgetId, resultValue)
+    }
+
+    private fun showConfigurationUI(appWidgetId: Int, resultValue: Intent) {
         val widgetData = HomeWidgetPlugin.getData(this.applicationContext)
         val initialColorMode = widgetData.getInt("${Keys.colorMode.name}_$appWidgetId", 0)
         val initialBackgroundAlpha = widgetData.getFloat("${Keys.backgroundAlpha.name}}_$appWidgetId", 1f)
@@ -80,6 +136,7 @@ class CountingWidgetConfigurationActivity : ComponentActivity() {
                     scope.launch {
                         CountingWidget().updateAll(context)
                     }
+                    channel.invokeMethod("registerWidget", null)
                     finish()
                 },
                 onCancel = {

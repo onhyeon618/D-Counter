@@ -60,6 +60,9 @@ dependencies {
     implementation("androidx.activity:activity-compose")
     implementation("androidx.compose.foundation:foundation")
     implementation("androidx.compose.material3:material3-android:1.3.2")
+
+    implementation("androidx.appcompat:appcompat:1.7.0")
+
     implementation("androidx.glance:glance-appwidget:1.1.1")
 
     implementation("androidx.compose.ui:ui-tooling-preview")

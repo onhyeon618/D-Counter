@@ -1,32 +1,15 @@
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+import 'package:d_counter/channel/widget_channel.dart';
 import 'package:d_counter/home.dart';
-import 'package:d_counter/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:workmanager/workmanager.dart';
 
-@pragma('vm:entry-point')
-void callbackDispatcher() {
-  Workmanager().executeTask((task, inputData) async {
-    await updateWidget();
-    return Future.value(true);
-  });
-}
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Workmanager().initialize(callbackDispatcher);
 
-  final now = DateTime.now();
-  final nextMidnight = DateTime(now.year, now.month, now.day + 1);
-  final initialDelay = nextMidnight.difference(now);
-
-  Workmanager().registerPeriodicTask(
-    'midnight-update-task',
-    'midnightUpdateTask',
-    frequency: const Duration(hours: 24),
-    initialDelay: initialDelay,
-    existingWorkPolicy: ExistingWorkPolicy.replace,
-  );
+  await AndroidAlarmManager.initialize();
+  WidgetChannel.init();
 
   runApp(const MyApp());
 }
