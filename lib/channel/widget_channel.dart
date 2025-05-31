@@ -12,13 +12,11 @@ class WidgetChannel {
         final now = DateTime.now();
         final nextMidnight = DateTime(now.year, now.month, now.day + 1);
 
-        await AndroidAlarmManager.periodic(
-          const Duration(hours: 24),
+        await AndroidAlarmManager.oneShotAt(
+          nextMidnight,
           widgetUpdateId,
-          updateWidget,
-          startAt: nextMidnight,
-          allowWhileIdle: true,
-          exact: true,
+          updateWidgetDaily,
+          alarmClock: true,
           wakeup: true,
           rescheduleOnReboot: true,
         );
