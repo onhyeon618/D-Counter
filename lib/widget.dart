@@ -31,7 +31,7 @@ Future<void> updateWidget() async {
   await updateData();
 
   HomeWidget.updateWidget(
-    androidName: 'CountingWidgetReceiver',
+    qualifiedAndroidName: 'com.toyprojects.dcounter.d_counter.CountingWidgetReceiver',
   );
 }
 
